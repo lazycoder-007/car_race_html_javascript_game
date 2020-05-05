@@ -15,12 +15,14 @@ var myObstacleY;
 var myObstacleW;
 var myObstacleH;
 var numberOfObstaclesPerFrame;
+var numberOfDividersPerFrame
 var myObstacleSpeed;
 var redGamePieceSpeedLeft;
 var redGamePieceSpeedRight;
 var redGamePieceSpeedUp;
 var redGamePieceSpeedDown;
 var myMusic;
+var roadDivider = [];
 
 var myGameArea = {
 	canvas : document.getElementById("myCanvas"),
@@ -109,13 +111,19 @@ function updateGameArea()
 	myGameArea.clear();
 	backgroundRoad.update();
 	myGameArea.frameNo += 1;
-	if (myGameArea.frameNo == 1 || everyinterval(numberOfObstaclesPerFrame)) {
+	if (myGameArea.frameNo == 1 || diveiderInterval(numberOfDividersPerFrame)) {
+		roadDivider.push(new component(20, 80, "white", canvasW/2, 0));
+	}
+	for (i = 0; i < roadDivider.length; i += 1) {
+		roadDivider[i].y += myObstacleSpeed;
+		roadDivider[i].update();
+	}
+	if (myGameArea.frameNo == 1 || obstacleInterval(numberOfObstaclesPerFrame)) {
 		myObstacleX = Math.floor(Math.random() * canvasW);
 		myObstacleY = 0;
 		myObstacles.push(new component(myObstacleW, myObstacleH, "redCarImage.png", myObstacleX, myObstacleY, "image"));
 	}
 	for (i = 0; i < myObstacles.length; i += 1) {
-		console.log();
 		myObstacles[i].y += myObstacleSpeed;
 		myObstacles[i].update();
 	}
@@ -144,7 +152,15 @@ function updateGameArea()
 	
 }
 
-function everyinterval(n) {
+function obstacleInterval(n) {
+	if ((myGameArea.frameNo / n) % 1 == 0) 
+	{
+		return true;
+	}
+	return false;
+}
+
+function diveiderInterval(n) {
 	if ((myGameArea.frameNo / n) % 1 == 0) 
 	{
 		return true;
@@ -191,6 +207,7 @@ function level1()
     redGamePiece;
 	myMusic;
 	backgroundRoad;
+	roadDivider = [];
 	myObstacles = [];
 	myScore;
 	redGamePieceW = 30;
@@ -206,6 +223,7 @@ function level1()
 	myObstacleW = 30;
 	myObstacleH = 30;
 	numberOfObstaclesPerFrame = 20;
+	numberOfDividersPerFrame = 50;
 	myObstacleSpeed = 5;
 	redGamePieceSpeedLeft = 5;
 	redGamePieceSpeedRight = 5;
@@ -219,6 +237,7 @@ function level2()
 	redGamePiece;
 	backgroundRoad;
 	myMusic;
+	roadDivider = [];
 	myObstacles = [];
 	myScore;
 	redGamePieceW = 30;
@@ -234,6 +253,7 @@ function level2()
 	myObstacleW = 30;
 	myObstacleH = 30;
 	numberOfObstaclesPerFrame = 20;
+	numberOfDividersPerFrame = 50;
 	myObstacleSpeed = 10;
 	redGamePieceSpeedLeft = 5;
 	redGamePieceSpeedRight = 5;
@@ -247,6 +267,7 @@ function level3()
 	redGamePiece;
 	myMusic;
 	backgroundRoad;
+	roadDivider = [];
 	myObstacles = [];
 	myScore;
 	redGamePieceW = 30;
@@ -262,6 +283,7 @@ function level3()
 	myObstacleW = 30;
 	myObstacleH = 30;
 	numberOfObstaclesPerFrame = 25;
+	numberOfDividersPerFrame = 50;
 	myObstacleSpeed = 15;
 	redGamePieceSpeedLeft = 4;
 	redGamePieceSpeedRight = 4;
