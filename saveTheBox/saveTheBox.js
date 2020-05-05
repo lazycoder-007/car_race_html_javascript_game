@@ -1,4 +1,5 @@
 var redGamePiece;
+var backgroundRoad;
 var myObstacles = [];
 var myScore;
 var redGamePieceW;
@@ -19,6 +20,7 @@ var redGamePieceSpeedLeft;
 var redGamePieceSpeedRight;
 var redGamePieceSpeedUp;
 var redGamePieceSpeedDown;
+var myMusic;
 
 var myGameArea = {
 	canvas : document.getElementById("myCanvas"),
@@ -41,19 +43,29 @@ var myGameArea = {
 	},
 	stop : function() {
 		clearInterval(this.interval);
+		myMusic.stop();
 	}
 }
 
 function component(width, height, color, x, y, type) {
 	this.width = width;
 	this.height = height;
+	if(type == "image")
+	{
+		this.image = new Image();
+		this.image.src = color;
+	}
 	this.speedX = 0;
     this.speedY = 0;
 	this.x = x;
 	this.y = y;
 	this.update = function(){							
 		ctx = myGameArea.context;
-		if (	type == "text") {
+		if(type == "image")
+		{
+			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
+		else if(type == "text") {
 		  ctx.font = this.width + " " + this.height;
 		  ctx.fillStyle = color;
 		  ctx.fillText(this.text, this.x, this.y);
@@ -95,11 +107,12 @@ function updateGameArea()
 		}
 	}
 	myGameArea.clear();
+	backgroundRoad.update();
 	myGameArea.frameNo += 1;
 	if (myGameArea.frameNo == 1 || everyinterval(numberOfObstaclesPerFrame)) {
 		myObstacleX = Math.floor(Math.random() * canvasW);
 		myObstacleY = 0;
-		myObstacles.push(new component(myObstacleW, myObstacleH, "green", myObstacleX, myObstacleY));
+		myObstacles.push(new component(myObstacleW, myObstacleH, "redCarImage.png", myObstacleX, myObstacleY, "image"));
 	}
 	for (i = 0; i < myObstacles.length; i += 1) {
 		console.log();
@@ -128,6 +141,7 @@ function updateGameArea()
 	myScore.update();
 	redGamePiece.newPos();
 	redGamePiece.update();
+	
 }
 
 function everyinterval(n) {
@@ -137,6 +151,23 @@ function everyinterval(n) {
 	}
 	return false;
 }
+
+function Sound(src, loop) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.setAttribute("autoplay", "true");
+  this.sound.setAttribute("loop", loop);  
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}  
 
 function changeLevels()
 {
@@ -158,10 +189,12 @@ function changeLevels()
 function level1()
 {
     redGamePiece;
+	myMusic;
+	backgroundRoad;
 	myObstacles = [];
 	myScore;
-	redGamePieceW = 15;
-	redGamePieceH = 15;
+	redGamePieceW = 30;
+	redGamePieceH = 30;
 	cornerGap = 5;
 	redGamePieceX;
 	redGamePieceY;
@@ -170,8 +203,8 @@ function level1()
 	redGamePieceColor = "red";
 	myObstacleX;
 	myObstacleY;
-	myObstacleW = 10;
-	myObstacleH = 10;
+	myObstacleW = 30;
+	myObstacleH = 30;
 	numberOfObstaclesPerFrame = 20;
 	myObstacleSpeed = 5;
 	redGamePieceSpeedLeft = 5;
@@ -184,10 +217,12 @@ function level1()
 function level2()
 {
 	redGamePiece;
+	backgroundRoad;
+	myMusic;
 	myObstacles = [];
 	myScore;
-	redGamePieceW = 15;
-	redGamePieceH = 15;
+	redGamePieceW = 30;
+	redGamePieceH = 30;
 	cornerGap = 5;
 	redGamePieceX;
 	redGamePieceY;
@@ -196,24 +231,26 @@ function level2()
 	redGamePieceColor = "red";
 	myObstacleX;
 	myObstacleY;
-	myObstacleW = 10;
-	myObstacleH = 10;
-	numberOfObstaclesPerFrame = 10;
+	myObstacleW = 30;
+	myObstacleH = 30;
+	numberOfObstaclesPerFrame = 20;
 	myObstacleSpeed = 10;
-	redGamePieceSpeedLeft = 3;
-	redGamePieceSpeedRight = 3;
+	redGamePieceSpeedLeft = 5;
+	redGamePieceSpeedRight = 5;
 	redGamePieceSpeedUp = 3;
-	redGamePieceSpeedDown = 3;
+	redGamePieceSpeedDown = 6;
 	startTheGame();
 }
 
 function level3()
 {
 	redGamePiece;
+	myMusic;
+	backgroundRoad;
 	myObstacles = [];
 	myScore;
-	redGamePieceW = 15;
-	redGamePieceH = 15;
+	redGamePieceW = 30;
+	redGamePieceH = 30;
 	cornerGap = 5;
 	redGamePieceX;
 	redGamePieceY;
@@ -222,12 +259,12 @@ function level3()
 	redGamePieceColor = "red";
 	myObstacleX;
 	myObstacleY;
-	myObstacleW = 10;
-	myObstacleH = 10;
-	numberOfObstaclesPerFrame = 10;
-	myObstacleSpeed = 1;
-	redGamePieceSpeedLeft = 2;
-	redGamePieceSpeedRight = 2;
+	myObstacleW = 30;
+	myObstacleH = 30;
+	numberOfObstaclesPerFrame = 25;
+	myObstacleSpeed = 15;
+	redGamePieceSpeedLeft = 4;
+	redGamePieceSpeedRight = 4;
 	redGamePieceSpeedUp = 2;
 	redGamePieceSpeedDown = 2;
 	startTheGame();
@@ -235,12 +272,17 @@ function level3()
 
 function startTheGame()
 {
+	myMusic = new Sound("gameTheme.mp3", "true");
 	myGameArea.stop();
 	myGameArea.start();
 	redGamePieceX = myGameArea.canvas.width/2;
 	redGamePieceY = myGameArea.canvas.height - redGamePieceX - cornerGap;
-	redGamePiece = new component(redGamePieceW, redGamePieceH, redGamePieceColor, redGamePieceX, redGamePieceY);
-	myScore = new component("20px", "Consolas", "black", 10, 40, "text");
+	//redGamePiece = new component(redGamePieceW, redGamePieceH, redGamePieceColor, redGamePieceX, redGamePieceY);
+	redGamePiece = new component(redGamePieceW, redGamePieceH, "yellowCarImage.png", redGamePieceX, redGamePieceY, "image");
+	backgroundRoad = new component(canvasW, canvasH, "roadImage.png", 0, 0, "image");
+	myScore = new component("20px", "Consolas", "red", 10, 40, "text");
+	myMusic.play();
+	
 }
 
 level1();
