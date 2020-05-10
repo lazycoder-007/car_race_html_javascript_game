@@ -211,7 +211,7 @@ function level1()
 	myObstacles = [];
 	myScore;
 	redGamePieceW = 30;
-	redGamePieceH = 30;
+	redGamePieceH = 40;
 	cornerGap = 5;
 	redGamePieceX;
 	redGamePieceY;
@@ -241,7 +241,7 @@ function level2()
 	myObstacles = [];
 	myScore;
 	redGamePieceW = 30;
-	redGamePieceH = 30;
+	redGamePieceH = 40;
 	cornerGap = 5;
 	redGamePieceX;
 	redGamePieceY;
@@ -271,7 +271,7 @@ function level3()
 	myObstacles = [];
 	myScore;
 	redGamePieceW = 30;
-	redGamePieceH = 30;
+	redGamePieceH = 40;
 	cornerGap = 5;
 	redGamePieceX;
 	redGamePieceY;
@@ -303,8 +303,7 @@ function startTheGame()
 	redGamePiece = new component(redGamePieceW, redGamePieceH, "yellowCarImage.png", redGamePieceX, redGamePieceY, "image");
 	backgroundRoad = new component(canvasW, canvasH, "roadImage.png", 0, 0, "image");
 	myScore = new component("20px", "Consolas", "red", 10, 40, "text");
-	myMusic.play();
-	
+	//myMusic.play();
 }
 
 level1();
