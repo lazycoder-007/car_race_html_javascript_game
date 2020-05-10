@@ -23,14 +23,15 @@ var redGamePieceSpeedUp;
 var redGamePieceSpeedDown;
 var myMusic;
 var roadDivider = [];
+var start = false;
 
 var myGameArea = {
 	canvas : document.getElementById("myCanvas"),
-	start : function(){
+	load : function(){
 		this.canvas.width = canvasW;
 		this.canvas.height = canvasH;
 		this.context = this.canvas.getContext("2d");
-		this.interval = setInterval(updateGameArea, 20);
+		this.loadInterval = setInterval(loadGameArea, 20);
 		this.frameNo = 0;
 		window.addEventListener("keydown", function(e){
 			myGameArea.keys = (myGameArea.keys || []);
@@ -39,6 +40,10 @@ var myGameArea = {
 		window.addEventListener("keyup", function(e){
 			myGameArea.keys[e.keyCode] = false;
 		});
+	},
+	start : function(){
+		clearInterval(this.loadInterval);
+		this.interval = setInterval(updateGameArea, 20);
 	},
 	clear : function(){
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -152,6 +157,13 @@ function updateGameArea()
 	
 }
 
+function loadGameArea()
+{
+	backgroundRoad.update();
+	redGamePiece.update();
+	
+}
+
 function obstacleInterval(n) {
 	if ((myGameArea.frameNo / n) % 1 == 0) 
 	{
@@ -188,6 +200,7 @@ function Sound(src, loop) {
 function changeLevels()
 {
 	var level = document.getElementById("levels").value;
+	start = true;
 	if(level == 1)
 	{
 		level1();
@@ -295,14 +308,21 @@ function level3()
 function startTheGame()
 {
 	myMusic = new Sound("gameTheme.mp3", "true");
-	myGameArea.stop();
-	myGameArea.start();
-	redGamePieceX = myGameArea.canvas.width/2;
-	redGamePieceY = myGameArea.canvas.height - redGamePieceX - cornerGap;
+	redGamePieceX = canvasW/2;
+	redGamePieceY = canvasH - redGamePieceX - cornerGap;
 	//redGamePiece = new component(redGamePieceW, redGamePieceH, redGamePieceColor, redGamePieceX, redGamePieceY);
 	redGamePiece = new component(redGamePieceW, redGamePieceH, "yellowCarImage.png", redGamePieceX, redGamePieceY, "image");
 	backgroundRoad = new component(canvasW, canvasH, "roadImage.png", 0, 0, "image");
 	myScore = new component("20px", "Consolas", "red", 10, 40, "text");
+	myGameArea.stop();
+	if(start)
+	{
+		myGameArea.start();
+	}
+	else
+	{
+		myGameArea.load();
+	}
 	//myMusic.play();
 }
 
