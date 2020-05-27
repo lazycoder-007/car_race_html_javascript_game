@@ -72,7 +72,7 @@ function component(width, height, color, x, y, type) {
 		{
 			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 		}
-		else if(type == "text") {
+		else if(type === "text") {
 		  ctx.font = this.width + " " + this.height;
 		  ctx.fillStyle = color;
 		  ctx.fillText(this.text, this.x, this.y);
@@ -116,14 +116,14 @@ function updateGameArea()
 	myGameArea.clear();
 	backgroundRoad.update();
 	myGameArea.frameNo += 1;
-	if (myGameArea.frameNo == 1 || diveiderInterval(numberOfDividersPerFrame)) {
+	if (myGameArea.frameNo === 1 || diveiderInterval(numberOfDividersPerFrame)) {
 		roadDivider.push(new component(20, 80, "white", canvasW/2, 0));
 	}
 	for (i = 0; i < roadDivider.length; i += 1) {
 		roadDivider[i].y += myObstacleSpeed;
 		roadDivider[i].update();
 	}
-	if (myGameArea.frameNo == 1 || obstacleInterval(numberOfObstaclesPerFrame)) {
+	if (myGameArea.frameNo === 1 || obstacleInterval(numberOfObstaclesPerFrame)) {
 		myObstacleX = Math.floor(Math.random() * canvasW);
 		myObstacleY = 0;
 		myObstacles.push(new component(myObstacleW, myObstacleH, "redCarImage.png", myObstacleX, myObstacleY, "image"));
@@ -165,7 +165,7 @@ function loadGameArea()
 }
 
 function obstacleInterval(n) {
-	if ((myGameArea.frameNo / n) % 1 == 0) 
+	if ((myGameArea.frameNo / n) % 1 === 0) 
 	{
 		return true;
 	}
@@ -173,7 +173,7 @@ function obstacleInterval(n) {
 }
 
 function diveiderInterval(n) {
-	if ((myGameArea.frameNo / n) % 1 == 0) 
+	if ((myGameArea.frameNo / n) % 1 === 0) 
 	{
 		return true;
 	}
@@ -201,11 +201,11 @@ function changeLevels()
 {
 	var level = document.getElementById("levels").value;
 	start = true;
-	if(level == 1)
+	if(level === 1)
 	{
 		level1();
 	}
-	else if(level == 2)
+	else if(level === 2)
 	{
 		level2();
 	}
